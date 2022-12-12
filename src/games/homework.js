@@ -20,7 +20,7 @@ function setup (sprites) {
     sprites[0].y = 0;
 
     //volcano sprite
-    for (let i = 1; i < 3; i++) {
+    for (let i = 1; i < 2; i++) {
         sprites[i].image = "🌋"
         sprites[i].x = 500 * i;
         sprites[i].y = 0;
@@ -28,7 +28,7 @@ function setup (sprites) {
    
 
    //eagle sprite
-    for (let a = 3; a < 5; a++) {
+    for (let a = 3; a < 4; a++) {
         sprites[a].image = "🦅";
         sprites[a].y = 100;
         sprites[a].x = 500 * a; //Spread 500px apart
@@ -117,40 +117,40 @@ function setup (sprites) {
 
 
     //Move volconoes 
-    for (let i = 1; i < 3; i++) {
+    for (let i = 1; i < 2; i++) {
         //Move each volcano. Add some speed based on i
         //so they all go different speeds, and add some
         //speed based on the score
-        sprites[i].x -= dt * (100 + 30 * i + 10 * score);
+        sprites[i].x -= dt * (200 + 20 * score);
 
         //If a volcano goes off the left hand side
-        if (sprites[i].x < -50) {
+        if (sprites[i].x < -30) {
             //Move him back off the right hand side
             sprites[i].x = 800 + Math.random() * 400;
             score++; //Increase the score
         }
         //Make them bounce up and down a little
-        sprites[i].y = Math.sin(20 * t + 10 * i);
+        //sprites[i].y = Math.sin(20 * t + 10 * i);
     }
 
     //Move eagles 
-    for (let a = 3; a < 5; a++) {
-        sprites[a].x -= dt * (150 + 40 * a + 20 * score);
+    for (let a = 3; a < 4; a++) {
+        sprites[a].x -= dt * (300 + 20 * score);
         
 
-         //if the eagle goes off the left hand size
+         //if the eagle goes off the left hand side
         if (sprites[a].x < -30) {
-        sprites[a].x = 400 + Math.random() * 200;
+        sprites[a].x = 750;
         score++;
         }
-        //Make them swoop in
-        sprites[a].y = (Math.sin(t * 10) * 50) + 50;
+        //Make it swoop in
+        sprites[a].y = (Math.sin(t * 10) * 100) + 90;
     }
 
 
 
     //Check each volcano to see if it hits the hero
-    for (let i = 1; i < 3; i++) {
+    for (let i = 1; i < 2; i++) {
         let dMan = Math.abs(sprites[i].x - sprites[0].x);
         if (dMan < 10 && sprites[0].y < 30) {
             //Too close? hero dead!
@@ -158,19 +158,29 @@ function setup (sprites) {
             sprites[0].image = "☠️";
         }
     }
+    //check each eagle to see if it hits the hero
+    for (let a = 3; a < 4; a++ ) {
+        let dManx = Math.abs(sprites[a].x - sprites[0].x);
+        let dMany = Math.abs(sprites[a].y - sprites[0].y);
+        if (dManx < 10 && dMany < 10) {
+            //Too close? dino dead!
+            dead = true;
+            sprites[0].image = "☠️";
+        } 
+    }
 
     return score;
 };
 
 export default {
     name: "Dino Dash",
-    instructions: "Left and Right arrows to move, Up to jump, down to duck, Space to restart.",
+    instructions: "Left and Right arrows to move, Up to jump, Space to restart.",
     icon: "🦖",
     background: {
         //A more complicated background
         "background-color": "skyblue",
-        "background-image": "linear-gradient(#424299, skyblue)",
-        "border-bottom": "50px solid green"
+        "background-image": "linear-gradient(blue, grey)",
+        "border-bottom": "20px solid darkgreen"
     },
     frame,
     setup,
